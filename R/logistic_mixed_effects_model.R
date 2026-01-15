@@ -1,19 +1,62 @@
 # Model ----
 
-#' Fit a single model using initiating parameters
+# Check df_long is correct
+check_df_long <- function(df_long) {
+  # Check df_long is a data frame
+  if (!is.data.frame(df_long)) {
+    stop("df_long must be a data frame.")
+  }
+
+  # Check df_long is not empty
+  if (nrow(df_long) == 0) {
+    stop("df_long is empty. It must contain at least one row.")
+  }
+
+  # Check required columns exist
+  required_cols <- c("Subject_ID", "Time", "Binary_outcome")
+  missing_cols <- setdiff(required_cols, colnames(df_long))
+  if (length(missing_cols) > 0) {
+    stop(
+      "df_long is missing required columns: ",
+      paste(missing_cols, collapse = ", ")
+    )
+  }
+
+  # Check Binary_outcome is not constant
+  binary_vals <- unique(df_long$Binary_outcome)
+  if (length(binary_vals) == 1) {
+    stop("Binary_outcome is constant (all 0 or all 1). Cannot fit model.")
+  }
+
+  # If all checks pass, return TRUE invisibly
+  invisible(TRUE)
+}
+
+
+#' fit_model: Fit a single model using initiating parameters
 #'
-#' This is called by fit_model_with_retries using different initiating parameters
+#' This is called by `fit_model_with_retries` using different initiating parameters
 #'
 #' @param df_long data in long format. Columns are: Subject_ID, Time, Binary_outcome
 #' @param nGH number of nodes for optimizer
 #' @param fixed_pars named list of parameters to fix values (i.e. no optimization on)
 #' @param default_init named list of initial parameters to try optimizing on
-#' @return list
+#' @return An object of class `multi_mix_model`, which is a list containing at least:
+#' \describe{
+#'   \item{df_long}{The original `df_long` data frame used for fitting.}
+#'   \item{est}{Named numeric vector of estimated parameters.}
+#'   \item{u_hat}{Estimated random effects of size `[N, 2]`}
+#'   \item{logLik}{Numeric. Log-likelihood of the fitted model.}
+#' }
+#' The object is intended to be used with S3 methods such as `print()`, `summary()`, and `plot()`.
+#'
 #' @export
 fit_model <- function(df_long,
                       nGH = 40,
                       fixed_pars = list(),
                       default_init = default_init_example) {
+
+  check_df_long(df_long)
 
   # Gauss–Hermite quadrature ----
   gh <- gauss.quad.prob(nGH, dist = "normal")
@@ -193,6 +236,30 @@ fit_model <- function(df_long,
 }
 
 
+#' fit_model_with_retries: Find optimal model using several initiating parameters
+#'
+#' Due to many undefined cases of the generic function and the lack of an empirical solution
+#' to the optimizer, this function will retry several initiating parameters
+#' and find the most optimal model
+#'
+#' @param df_long data in long format. Columns are: Subject_ID, Time, Binary_outcome
+#' @param fixed_pars named list of parameters to fix values (i.e. no optimization on)
+#' @param lower_bounds named list of lower bounds to guess initial params within
+#' @param upper_bounds named list of upper bounds to guess initial params within
+#' @param max_tries number of initial params to be tried
+#' @param return_first_sucess logical. If `TRUE` then first model that works will be returned. Otherwise will exhaust the full number of retires to find the most optimal solution
+#' @param verbose logical. If `TRUE` then error messages will be displayed for each failed attempt
+#'
+#' @return An object of class `multi_mix_model`, which is a list containing at least:
+#' \describe{
+#'   \item{df_long}{The original `df_long` data frame used for fitting.}
+#'   \item{est}{Named numeric vector of estimated parameters.}
+#'   \item{u_hat}{Estimated random effects of size `[N, 2]`}
+#'   \item{logLik}{Numeric. Log-likelihood of the fitted model.}
+#' }
+#' The object is intended to be used with S3 methods such as `print()`, `summary()`, and `plot()`.
+#'
+#' @export
 fit_model_with_retries <- function(
     df_long,
     fixed_pars,
