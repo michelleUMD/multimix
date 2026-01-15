@@ -1,5 +1,15 @@
 # Model ----
 
+#' Fit a single model using initiating parameters
+#'
+#' This is called by fit_model_with_retries using different initiating parameters
+#'
+#' @param df_long data in long format. Columns are: Subject_ID, Time, Binary_outcome
+#' @param nGH number of nodes for optimizer
+#' @param fixed_pars named list of parameters to fix values (i.e. no optimization on)
+#' @param default_init named list of initial parameters to try optimizing on
+#' @return list
+#' @export
 fit_model <- function(df_long,
                       nGH = 40,
                       fixed_pars = list(),
