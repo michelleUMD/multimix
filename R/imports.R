@@ -1,3 +1,12 @@
-pacman::p_load(dplyr, gtsummary, gt,
-               ggplot2, forcats,
-               tidyr, lubridate, purrr, brms, zoo, statmod)
+#' @import dplyr
+#' @import tidyr
+#' @import ggplot2
+#' @import purrr
+#' @import forcats
+#' @import lubridate
+#' @import brms
+#' @import zoo
+#' @import statmod
+#' @import gt
+#' @import gtsummary
+NULL

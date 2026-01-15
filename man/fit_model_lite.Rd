@@ -32,7 +32,7 @@ An object of class \code{multi_mix_model}, which is a list containing at least:
 The object is intended to be used with S3 methods such as \code{print()}, \code{summary()}, and \code{plot()}.
 }
 \description{
-This is called by fit_model_with_retries_lite using different initiating parameters.
+This is called by \code{fit_model_with_retries_lite} using different initiating parameters.
 Contrary to the full model, this model only fits a single random effect and
 uses a scaling coefficient to approximate the second random effect
 }

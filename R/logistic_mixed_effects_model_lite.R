@@ -22,7 +22,6 @@
 fit_model_lite <- function(df_long,
                            nGH = 40,
                            fixed_pars = list(),
-                           full_param_names = lite_param_names,
                            default_init = default_init_example) {
 
   check_df_long(df_long)
@@ -33,6 +32,7 @@ fit_model_lite <- function(df_long,
   weights <- gh$weights
 
   # Distinguish parameters to optimize vs fixed
+  full_param_names = names(default_init_example_lite)
   train_pars <- setdiff(full_param_names, names(fixed_pars))
   init_pars  <- default_init[train_pars]
 

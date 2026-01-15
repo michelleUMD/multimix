@@ -44,6 +44,49 @@ upper_bounds_example <- c(
   gamma_late = 5
 )
 
+
+default_init_example_lite <- c(
+  beta0_1 = 10,
+  beta0_2 = 0,
+  a1 = 1,
+  a2 = 2,
+  log_sigma = 1,
+  log_t_half_early = log(3),
+  log_t_half_late = log(10),
+  eta_early = 8,
+  eta_late = 8,
+  gamma_early = 0,
+  gamma_late = 0
+)
+
+lower_bounds_example_lite <- c(
+  beta0_1 = -10,
+  beta0_2 = -10,
+  a1 = -5,
+  a2 = -5,
+  log_sigma = log(1e-4),
+  log_t_half_early = log(0.01),
+  log_t_half_late = log(0.01),
+  eta_early = -2,
+  eta_late = -2,
+  gamma_early = -2,
+  gamma_late = -2
+)
+
+upper_bounds_example_lite <- c(
+  beta0_1 = 5,
+  beta0_2 = 5,
+  a1 = 4,
+  a2 = 4,
+  log_sigma = log(10),
+  log_t_half_early = log(10),
+  log_t_half_late = log(20),
+  eta_early = 2,
+  eta_late = 2,
+  gamma_early = 2,
+  gamma_late = 2
+)
+
 generate_random_init_from_bounds <- function(
     lower_bounds,
     upper_bounds
