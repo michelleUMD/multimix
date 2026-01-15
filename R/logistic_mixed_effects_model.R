@@ -181,12 +181,15 @@ fit_model <- function(df_long,
   colnames(u_hat) <- c("u1", "u2")
 
   # Return value ----
-  list(
+  multi_mix_model <- list(
     df_long = df_long,
     est = est,
     u_hat = u_hat,
     logLik = -opt2$value
   )
+
+  class(multi_mix_model) <- "multi_mix_model"
+  return(multi_mix_model)
 }
 
 
@@ -257,117 +260,4 @@ fit_model_with_retries <- function(
   best_fit
 }
 
-# Iterate over drug list ----
-
-estimated_param_list <- list()
-
-fixed_pars <- list(
-  # eta_early = 1,
-  # a1 = 1,
-  # beta0_2 = 0
-  # gamma_early = 0,
-  # gamma_late = 0
-)
-
-# fixed_pars_per_drug <- list(
-#   "Anti IL-1 agents" = list(eta_early = 0),
-#   "Corticosteroids" = list(),
-#   "Colchicine" = list()
-# )
-
-
-# Loop over each drug class # "NSAIDs",
-drug_classes_of_interest <-  c("Anti IL-1 agents",
-                               "Corticosteroids", "Colchicine")
-for (drug_class in drug_classes_of_interest) {
-
-  message("Estimating model for drug class: ", drug_class)
-
-  est_list <- fit_model_with_retries(
-    df_long = get_df_long(drug_df_list[[drug_class]]),
-    fixed_pars      = fixed_pars,
-    lower_bounds    = lower_bounds_example,
-    upper_bounds    = upper_bounds_example
-  )
-
-
-  print(plot_drug_probabilities(est_list, title = drug_class))
-
-  # Store the parameter estimates
-  estimated_param_list[[drug_class]] <- est_list
-}
-
-# Display Results ----
-
-# Check results
-estimated_param_list
-
-plot_all_drug_classes_facet(estimated_param_list)
-
-
-for (nm in names(estimated_param_list)) {
-  cat("Model:", nm, "\n")
-  cat("  logLik:", estimated_param_list[[nm]]$logLik, "\n")
-  cat("  est:\n")
-  print(estimated_param_list[[nm]]$est)
-  cat("\n")
-}
-
-
-VAR_TO_ENGLISH_DICT <- c(
-  a1 = "a₁ (early)",
-  a2 = "a₂ (late)",
-
-  beta0_1 = "β₀₁ (early)",
-  beta0_2 = "β₀₂ (late)",
-
-  t_half_early = "t½ (early)",
-  t_half_late  = "t½ (late)",
-
-  eta_early   = "η (early)",
-  eta_late    = "η (late)",
-
-  gamma_early = "γ (early)",
-  gamma_late  = "γ (late)",
-
-  sigma = "σ"
-)
-
-
-
-est_long <- lapply(names(estimated_param_list), function(nm) {
-  est <- estimated_param_list[[nm]]$est
-  data.frame(
-    model = nm,
-    parameter = names(est),
-    estimate = unname(est),
-    stringsAsFactors = FALSE
-  )
-}) |>
-  bind_rows()
-
-# Wide: parameters = rows, models = columns
-est_wide <- est_long |>
-  mutate(
-    parameter = if_else(
-      parameter %in% names(VAR_TO_ENGLISH_DICT),
-      VAR_TO_ENGLISH_DICT[parameter],
-      parameter
-    )
-  ) |>
-  pivot_wider(
-    names_from  = model,
-    values_from = estimate
-  )
-
-est_wide |>
-  gt(rowname_col = "parameter") |>
-  fmt_number(
-    columns = everything(),
-    decimals = 2
-  ) |>
-  tab_header(
-    title = "Estimated Model Parameters"
-  ) |>
-  opt_table_outline()
 
