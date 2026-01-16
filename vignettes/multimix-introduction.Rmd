@@ -14,34 +14,35 @@ knitr::opts_chunk$set(
 )
 ```
 
-First, we must install the package from github and load it into the environment 
+First, we must install the package from github and load it into the environment
+
 ```{r setup}
 # install.packages("devtools") 
 # devtools::install_github("michelleUMD/multimix")
 library(multimix)
 ```
 
-We have included a sample dataset for your convenience. The columns required are `Subject_ID`, `Time`, and  `Binary_outcome`
+We have included a sample dataset for your convenience. Data must be in **long** format. The columns required are `Subject_ID`, `Time`, and `Binary_outcome`
+
 ```{r}
 data(sample_data)
 head(sample_data)
 ```
 
-To call the model, we use the `multimix` function. Because the model does not have an empirical solution, it uses an optimizer with by 20 random initial parameter guesses (default). You can keep the first plausible solution (`return_first_sucess = TRUE`) or exhaust all 20 tries to find the best one. You can also specify the number of guesses and the bounds for the guesses using arguments in this function. 
+To call the model, we use the `multimix` function. 
+
 ```{r}
-mm_model <- multimix(
-  df_long = sample_data, 
-  return_first_sucess = TRUE
-)
+mm_model <- multimix(sample_data)
 ```
 
 We can view the model parameters by calling `print()`
+
 ```{r}
 print(mm_model)
 ```
 
 We can visualize the model by calling `plot()`
+
 ```{r}
 plot(mm_model)
 ```
-

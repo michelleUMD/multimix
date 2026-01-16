@@ -111,7 +111,7 @@ plot_drug_probabilities <- function(
     ) +
     scale_y_continuous(name = "Probability", limits = c(0, 1)) +
     scale_x_continuous(name = "Time (months)", limits = c(0, 60)) +
-    labs(title = title, color = "Drug class") +
+    labs(title = title) +
     theme_minimal(base_size = 14)
 }
 
