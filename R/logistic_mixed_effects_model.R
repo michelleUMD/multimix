@@ -259,7 +259,7 @@ multimix <- function(
     init <- generate_random_init_from_bounds(lower_bounds, upper_bounds)
 
     fit <- tryCatch(
-      fit_model(
+      fit_multimix(
         df_long,
         fixed_pars = fixed_pars,
         default_init = init

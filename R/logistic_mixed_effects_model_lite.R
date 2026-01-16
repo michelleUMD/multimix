@@ -1,5 +1,5 @@
 # Model ----
-#' fit_model_lite: Fit a lighter version of the mixed effects model using initiating parameters
+#' fit_multimix_lite: Fit a lighter version of the mixed effects model using initiating parameters
 #'
 #' This is called by `fit_model_with_retries_lite` using different initiating parameters.
 #' Contrary to the full model, this model only fits a single random effect and
@@ -17,7 +17,7 @@
 #'   \item{logLik}{Numeric. Log-likelihood of the fitted model.}
 #' }
 #' The object is intended to be used with S3 methods such as `print()`, `summary()`, and `plot()`.
-fit_model_lite <- function(df_long,
+fit_multimix_lite <- function(df_long,
                            nGH = 40,
                            fixed_pars = list(),
                            default_init = default_init_example) {
@@ -239,7 +239,7 @@ multimix_lite <- function(
     init <- generate_random_init_from_bounds(lower_bounds, upper_bounds)
 
     fit <- tryCatch(
-      fit_model_lite(
+      fit_multimix_lite(
         df_long,
         fixed_pars = fixed_pars,
         default_init = init
