@@ -15,3 +15,7 @@ You can install the development version from GitHub:
 install.packages("devtools") 
 devtools::install_github("michelleUMD/multimix")
 ```
+
+## Vignettes
+
+Here [here](vignettes/multimix_introduction.Rmd) is a tutorial on how to use this package 
