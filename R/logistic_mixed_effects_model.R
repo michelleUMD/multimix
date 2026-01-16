@@ -199,7 +199,7 @@ fit_multimix <- function(df_long,
   colnames(u_hat) <- c("u1", "u2")
 
   # Return value ----
-  multi_mix_model <- list(
+  multimix_model <- list(
     df_long = df_long,
     est = est,
     u_hat = u_hat,
