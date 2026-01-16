@@ -27,4 +27,16 @@ data(sample_data)
 head(sample_data)
 ```
 
-Before we fit the model, we need to 
+To call the model, we use the 
+```{r}
+mm_model <- fit_model_with_retries(
+  df_long = sample_data, 
+  fixed_pars      = fixed_pars,
+  lower_bounds    = lower_bounds_example,
+  upper_bounds    = upper_bounds_example,
+  max_tries = 20, 
+  return_first_sucess = TRUE
+)
+
+```
+

@@ -41,7 +41,7 @@ check_df_long <- function(df_long) {
 #' @param nGH number of nodes for optimizer
 #' @param fixed_pars named list of parameters to fix values (i.e. no optimization on)
 #' @param default_init named list of initial parameters to try optimizing on
-#' @return An object of class `multi_mix_model`, which is a list containing at least:
+#' @return An object of class `multimix_model`, which is a list containing at least:
 #' \describe{
 #'   \item{df_long}{The original `df_long` data frame used for fitting.}
 #'   \item{est}{Named numeric vector of estimated parameters.}
@@ -49,8 +49,6 @@ check_df_long <- function(df_long) {
 #'   \item{logLik}{Numeric. Log-likelihood of the fitted model.}
 #' }
 #' The object is intended to be used with S3 methods such as `print()`, `summary()`, and `plot()`.
-#'
-#' @export
 fit_multimix <- function(df_long,
                       nGH = 40,
                       fixed_pars = list(),
@@ -227,7 +225,7 @@ fit_multimix <- function(df_long,
 #' @param return_first_sucess logical. If `TRUE` then first model that works will be returned. Otherwise will exhaust the full number of retires to find the most optimal solution
 #' @param verbose logical. If `TRUE` then error messages will be displayed for each failed attempt
 #'
-#' @return An object of class `multi_mix_model`, which is a list containing at least:
+#' @return An object of class `multimix_model`, which is a list containing at least:
 #' \describe{
 #'   \item{df_long}{The original `df_long` data frame used for fitting.}
 #'   \item{est}{Named numeric vector of estimated parameters.}

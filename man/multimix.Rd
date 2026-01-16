@@ -6,9 +6,9 @@
 \usage{
 multimix(
   df_long,
-  fixed_pars,
-  lower_bounds,
-  upper_bounds,
+  fixed_pars = list(beta0_2 = 0),
+  lower_bounds = lower_bounds_example,
+  upper_bounds = upper_bounds_example,
   max_tries = 20,
   return_first_sucess = FALSE,
   verbose = TRUE
@@ -30,7 +30,7 @@ multimix(
 \item{verbose}{logical. If \code{TRUE} then error messages will be displayed for each failed attempt}
 }
 \value{
-An object of class \code{multi_mix_model}, which is a list containing at least:
+An object of class \code{multimix_model}, which is a list containing at least:
 \describe{
 \item{df_long}{The original \code{df_long} data frame used for fitting.}
 \item{est}{Named numeric vector of estimated parameters.}

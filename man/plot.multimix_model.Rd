@@ -4,10 +4,10 @@
 \alias{plot.multimix_model}
 \title{Plot drug probability trajectories for a multi-mix model}
 \usage{
-\method{plot}{multi_mix_model}(x, ...)
+\method{plot}{multimix_model}(x, ...)
 }
 \arguments{
-\item{x}{An object of class \code{multi_mix_model}, typically returned by \code{fit_model_with_retries()}.}
+\item{x}{An object of class \code{multimix_model}, typically returned by \code{fit_model_with_retries()}.}
 
 \item{...}{Additional arguments passed to underlying plotting functions (currently ignored).}
 }

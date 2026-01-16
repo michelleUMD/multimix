@@ -4,11 +4,11 @@
 \alias{print.multimix_model}
 \title{Print method for multi-mix model objects}
 \usage{
-\method{print}{multi_mix_model}(x, ...)
+\method{print}{multimix_model}(x, ...)
 }
 \arguments{
-\item{x}{An object of class \code{multi_mix_model} or \code{multi_mix_model_lite},
-typically returned by \code{fit_multi_mix_model()} or its lite variant.}
+\item{x}{An object of class \code{multimix_model} or \code{multimix_model_lite},
+typically returned by \code{multimix()} or its lite variant.}
 
 \item{...}{Additional arguments (currently ignored) to allow method dispatch compatibility.}
 }
@@ -17,5 +17,5 @@ Invisibly returns the original object \code{x}.
 }
 \description{
 This S3 method prints a nicely formatted table of estimated parameters
-from a \code{multi_mix_model} or \code{multi_mix_model_lite} object.
+from a \code{multimix_model} or \code{multimix_model_lite} object.
 }

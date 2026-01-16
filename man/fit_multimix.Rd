@@ -21,7 +21,7 @@ fit_multimix(
 \item{default_init}{named list of initial parameters to try optimizing on}
 }
 \value{
-An object of class \code{multi_mix_model}, which is a list containing at least:
+An object of class \code{multimix_model}, which is a list containing at least:
 \describe{
 \item{df_long}{The original \code{df_long} data frame used for fitting.}
 \item{est}{Named numeric vector of estimated parameters.}

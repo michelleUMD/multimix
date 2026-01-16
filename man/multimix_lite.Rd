@@ -6,9 +6,9 @@
 \usage{
 multimix_lite(
   df_long,
-  fixed_pars,
-  lower_bounds,
-  upper_bounds,
+  fixed_pars = list(beta0_2 = 0),
+  lower_bounds = lower_bounds_example_lite,
+  upper_bounds = upper_bounds_example_lite,
   max_tries = 20,
   return_first_sucess = FALSE,
   verbose = TRUE
