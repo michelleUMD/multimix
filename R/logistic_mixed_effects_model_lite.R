@@ -179,19 +179,19 @@ fit_model_lite <- function(df_long,
 
 
   # Return value ----
-  multi_mix_model_lite <- list(
+  multimix_lite <- list(
     df_long = df_long,
     est = est,
     u_hat = u_hat,
     logLik = -opt2$value
   )
 
-  class(multi_mix_model_lite) <- "multi_mix_model_lite"
-  return(multi_mix_model_lite)
+  class(multimix_lite) <- "multimix_lite"
+  return(multimix_lite)
 
 }
 
-#' fit_model_with_retries_lite: Find optimal lighter model using several initiating parameters
+#' multimix_lite: Find optimal lighter model using several initiating parameters
 #'
 #' Due to many undefined cases of the generic function and the lack of an empirical solution
 #' to the optimizer, this function will retry several initiating parameters
@@ -217,11 +217,11 @@ fit_model_lite <- function(df_long,
 #' The object is intended to be used with S3 methods such as `print()`, `summary()`, and `plot()`.
 #'
 #' @export
-fit_model_with_retries_lite <- function(
+multimix_lite <- function(
     df_long,
     fixed_pars,
-    lower_bounds,
-    upper_bounds,
+    lower_bounds = lower_bounds_example_lite,
+    upper_bounds = upper_bounds_example_lite,
     max_tries = 20,
     return_first_sucess = FALSE,
     verbose = TRUE

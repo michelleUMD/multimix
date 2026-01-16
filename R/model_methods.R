@@ -33,7 +33,7 @@ VAR_TO_ENGLISH_DICT <- c(
 #' @return Invisibly returns the original object `x`.
 #' @export
 #' @method print multi_mix_model
-print.multi_mix_model <- function(x, ...) {
+print.multimix_model <- function(x, ...) {
   est <- x$est
 
   est_long <- data.frame(
@@ -73,7 +73,7 @@ print.multi_mix_model <- function(x, ...) {
 # Export the lite class method
 #' @export
 #' @method print multi_mix_model_lite
-print.multi_mix_model_lite <- print.multi_mix_model
+print.multimix_model_lite <- print.multimix_model
 
 
 # Plotting functions ----
@@ -88,7 +88,7 @@ print.multi_mix_model_lite <- print.multi_mix_model
 #' @return `ggplot` object
 #' @export
 #' @method plot multi_mix_model
-plot.multi_mix_model <- function(x, ...) {
+plot.multimix_model <- function(x, ...) {
   plot_drug_probabilities(x, ...)
 }
 
@@ -103,7 +103,7 @@ plot.multi_mix_model <- function(x, ...) {
 #' @return `ggplot` object
 #' @export
 #' @method plot multi_mix_model_lite
-plot.multi_mix_model_lite <- function(x, ...) {
+plot.multimix_model_lite <- function(x, ...) {
   plot_drug_probabilities_lite(x, ...)
 }
 

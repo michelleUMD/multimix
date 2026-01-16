@@ -8,7 +8,6 @@ fit_model_lite(
   df_long,
   nGH = 40,
   fixed_pars = list(),
-  full_param_names = lite_param_names,
   default_init = default_init_example
 )
 }

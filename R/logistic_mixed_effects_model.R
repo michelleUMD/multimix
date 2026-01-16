@@ -33,9 +33,9 @@ check_df_long <- function(df_long) {
 }
 
 
-#' fit_model: Fit a single model using initiating parameters
+#' fit_multimix: Fit a single model using initiating parameters
 #'
-#' This is called by `fit_model_with_retries` using different initiating parameters
+#' This is called by `multimix()` using different initiating parameters
 #'
 #' @param df_long data in long format. Columns are: Subject_ID, Time, Binary_outcome
 #' @param nGH number of nodes for optimizer
@@ -51,7 +51,7 @@ check_df_long <- function(df_long) {
 #' The object is intended to be used with S3 methods such as `print()`, `summary()`, and `plot()`.
 #'
 #' @export
-fit_model <- function(df_long,
+fit_multimix <- function(df_long,
                       nGH = 40,
                       fixed_pars = list(),
                       default_init = default_init_example) {
@@ -135,33 +135,10 @@ fit_model <- function(df_long,
   # Optimization ----
   last_pars <- NULL
 
-  cat("Starting Nelder–Mead\n")
-  opt1 <- tryCatch(
-    optim(
-      init_pars, negLogLik,
-      data = df_long,
-      nodes = nodes,
-      weights = weights,
-      fixed_pars = fixed_pars,
-      method = "Nelder-Mead",
-      control = list(maxit = 5000)
-    ),
-    error = function(e) {
-      message("Nelder-Mead failed: ", conditionMessage(e))
-      message("Last parameters evaluated:")
-      print(last_pars)
-      stop(e)
-    }
-  )
-
-  cat("After Nelder–Mead:\n")
-  print(opt1$par)
-  cat("LogLik =", -opt1$value, "\n\n")
-
   cat("Starting L-BFGS-B refinement\n")
   opt2 <- tryCatch(
     optim(
-      opt1$par, negLogLik,
+      init_pars, negLogLik,
       data = df_long,
       nodes = nodes,
       weights = weights,
@@ -231,12 +208,12 @@ fit_model <- function(df_long,
     logLik = -opt2$value
   )
 
-  class(multi_mix_model) <- "multi_mix_model"
-  return(multi_mix_model)
+  class(multimix_model) <- "multimix_model"
+  return(multimix_model)
 }
 
 
-#' fit_model_with_retries: Find optimal model using several initiating parameters
+#' multimix: Find optimal model using several initiating parameters
 #'
 #' Due to many undefined cases of the generic function and the lack of an empirical solution
 #' to the optimizer, this function will retry several initiating parameters
@@ -260,11 +237,11 @@ fit_model <- function(df_long,
 #' The object is intended to be used with S3 methods such as `print()`, `summary()`, and `plot()`.
 #'
 #' @export
-fit_model_with_retries <- function(
+multimix <- function(
     df_long,
     fixed_pars,
-    lower_bounds,
-    upper_bounds,
+    lower_bounds = lower_bounds_example,
+    upper_bounds = upper_bounds_example,
     max_tries = 20,
     return_first_sucess = FALSE,
     verbose = TRUE

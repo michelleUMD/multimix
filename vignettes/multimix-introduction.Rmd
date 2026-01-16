@@ -1,0 +1,30 @@
+---
+title: "multimix-introduction"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{multimix-introduction}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+First, we must install the package from github and load it into the environment 
+```{r setup}
+# install.packages("devtools") 
+# devtools::install_github("michelleUMD/multimix")
+library(multimix)
+```
+
+We have included a sample dataset for your convenience. The columns required are `Subject_ID`, `Time`, and  `Binary_outcome`
+```{r}
+data(sample_data)
+head(sample_data)
+```
+
+Before we fit the model, we need to 
