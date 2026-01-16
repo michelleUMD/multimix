@@ -251,7 +251,7 @@ multimix <- function(
     upper_bounds = upper_bounds_example,
     max_tries = 20,
     return_first_sucess = FALSE,
-    verbose = TRUE
+    verbose = FALSE
 ) {
 
   set.seed(1234)
