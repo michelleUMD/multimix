@@ -41,6 +41,7 @@ check_df_long <- function(df_long) {
 #' @param nGH number of nodes for optimizer
 #' @param fixed_pars named list of parameters to fix values (i.e. no optimization on)
 #' @param default_init named list of initial parameters to try optimizing on
+#' @param verbose logical.
 #' @return An object of class `multimix_model`, which is a list containing at least:
 #' \describe{
 #'   \item{df_long}{The original `df_long` data frame used for fitting.}
@@ -52,7 +53,8 @@ check_df_long <- function(df_long) {
 fit_multimix <- function(df_long,
                       nGH = 40,
                       fixed_pars = list(),
-                      default_init = default_init_example) {
+                      default_init = default_init_example,
+                      verbose = FALSE) {
 
   check_df_long(df_long)
 
@@ -90,7 +92,8 @@ fit_multimix <- function(df_long,
     gamma_early  <- full_pars["gamma_early"]
     gamma_late   <- full_pars["gamma_late"]
 
-    if(eta_early < 0 & gamma_early < 0 | eta_late < 0 & gamma_late < 0) {
+    if ((eta_early < 0 && gamma_early < 0) ||
+        (eta_late  < 0 && gamma_late  < 0)) {
       stop("Generic function undefined for eta and gamma both < 0")
     }
 
@@ -133,7 +136,9 @@ fit_multimix <- function(df_long,
   # Optimization ----
   last_pars <- NULL
 
-  cat("Starting L-BFGS-B refinement\n")
+  if(verbose) {
+    cat("Starting L-BFGS-B refinement\n")
+  }
   opt2 <- tryCatch(
     optim(
       init_pars, negLogLik,
@@ -146,16 +151,20 @@ fit_multimix <- function(df_long,
       control = list(maxit = 2000)
     ),
     error = function(e) {
-      message("L-BFGS-B failed: ", conditionMessage(e))
-      message("Last parameters evaluated:")
-      print(last_pars)
+      if(verbose) {
+        message("L-BFGS-B failed: ", conditionMessage(e))
+        message("Last parameters evaluated:")
+        message(paste(capture.output(print(last_pars)), collapse = "\n"))
+      }
       stop(e)
     }
   )
 
-  cat("After L-BFGS-B:\n")
-  print(opt2$par)
-  cat("LogLik =", -opt2$value, "\n\n")
+  if(verbose) {
+    cat("After L-BFGS-B:\n")
+    print(opt2$par)
+    cat("LogLik =", -opt2$value, "\n\n")
+  }
 
   # Combine optimized params with fixed params ----
   est <- c(opt2$par, unlist(fixed_pars, use.names = TRUE))
@@ -262,7 +271,8 @@ multimix <- function(
       fit_multimix(
         df_long,
         fixed_pars = fixed_pars,
-        default_init = init
+        default_init = init,
+        verbose = verbose
       ),
       error = function(e) {
         if (verbose) {
