@@ -27,16 +27,21 @@ data(sample_data)
 head(sample_data)
 ```
 
-To call the model, we use the 
+To call the model, we use the `multimix` function. Because the model does not have an empirical solution, it uses an optimizer with by 20 random initial parameter guesses (default). You can keep the first plausible solution (`return_first_sucess = TRUE`) or exhaust all 20 tries to find the best one. You can also specify the number of guesses and the bounds for the guesses using arguments in this function. 
 ```{r}
-mm_model <- fit_model_with_retries(
+mm_model <- multimix(
   df_long = sample_data, 
-  fixed_pars      = fixed_pars,
-  lower_bounds    = lower_bounds_example,
-  upper_bounds    = upper_bounds_example,
-  max_tries = 20, 
   return_first_sucess = TRUE
 )
+```
 
+We can view the model parameters by calling `print()`
+```{r}
+print(mm_model)
+```
+
+We can visualize the model by calling `plot()`
+```{r}
+plot(mm_model)
 ```
 
