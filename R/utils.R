@@ -119,31 +119,3 @@ generate_random_init_from_bounds <- function(
 
   init
 }
-
-# This is just to show the df structure
-# Should be in long format
-# Columns are: Subject_ID, Time, Binary_outcome
-get_df_long <- function(df) {
-  df_long <- df %>%
-    pivot_longer(
-      cols = -time,
-      names_to = "patient",
-      values_to = "on_drug"
-    ) %>%
-    mutate(
-      patient = factor(patient),
-      on_drug = as.integer(on_drug)
-    ) %>%
-    filter(!is.na(on_drug))
-
-  df_long <- data.frame(
-    Subject_ID = df_long$patient,
-    Time = df_long$time + 0.03,
-    Binary_outcome = df_long$on_drug
-  ) %>%
-    arrange(Subject_ID, Time)
-
-  rownames(df_long) <- NULL
-
-  return(df_long)
-}
