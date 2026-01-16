@@ -18,4 +18,4 @@ devtools::install_github("michelleUMD/multimix")
 
 ## Vignettes
 
-[Here](vignettes/multimix_introduction.Rmd) is a tutorial on how to use this package 
+[Here](vignettes/multimix-introduction.Rmd) is a tutorial on how to use this package 
