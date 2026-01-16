@@ -239,7 +239,7 @@ fit_multimix <- function(df_long,
 #' @export
 multimix <- function(
     df_long,
-    fixed_pars,
+    fixed_pars = list(beta0_2 = 0),
     lower_bounds = lower_bounds_example,
     upper_bounds = upper_bounds_example,
     max_tries = 20,

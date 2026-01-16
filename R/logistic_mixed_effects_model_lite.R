@@ -219,7 +219,7 @@ fit_model_lite <- function(df_long,
 #' @export
 multimix_lite <- function(
     df_long,
-    fixed_pars,
+    fixed_pars = list(beta0_2 = 0),
     lower_bounds = lower_bounds_example_lite,
     upper_bounds = upper_bounds_example_lite,
     max_tries = 20,
