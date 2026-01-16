@@ -42,33 +42,23 @@ print.multimix_model <- function(x, ...) {
     stringsAsFactors = FALSE
   )
 
-  est_wide <- est_long |>
-    mutate(
-      parameter = if_else(
-        parameter %in% names(VAR_TO_ENGLISH_DICT),
-        VAR_TO_ENGLISH_DICT[parameter],
-        parameter
-      )
-    ) |>
-    pivot_wider(
-      names_from  = model,
-      values_from = estimate
-    )
+  est_long$parameter <- ifelse(
+    est_long$parameter %in% names(VAR_TO_ENGLISH_DICT),
+    VAR_TO_ENGLISH_DICT[est_long$parameter],
+    est_long$parameter
+  )
 
-  gt_tbl <- est_wide |>
-    gt(rowname_col = "parameter") |>
-    fmt_number(
-      columns = everything(),
-      decimals = 2
-    ) |>
-    tab_header(
-      title = "Estimated Model Parameters"
-    ) |>
-    opt_table_outline()
+  rownames(est_long) <- est_long$parameter
+  est_long$parameter <- NULL
 
-  print(gt_tbl)
+  print(
+    round(est_long, 2),
+    ...
+  )
+
   invisible(x)
 }
+
 
 # Export the lite class method
 #' @export

@@ -251,10 +251,11 @@ multimix <- function(
     upper_bounds = upper_bounds_example,
     max_tries = 20,
     return_first_sucess = FALSE,
-    verbose = FALSE
+    verbose = FALSE,
+    seed = 1234
 ) {
 
-  set.seed(1234)
+  set.seed(seed)
 
   best_fit <- NULL
   best_logLik <- -Inf

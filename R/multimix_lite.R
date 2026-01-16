@@ -109,7 +109,9 @@ fit_multimix_lite <- function(df_long,
   # right before it fails
   last_pars <- NULL
 
-  cat("Starting L-BFGS-B refinement\n")
+  if(verbose) {
+    cat("Starting L-BFGS-B refinement\n")
+  }
   opt2 <- tryCatch(
     optim(
       init_pars, negLogLik,
@@ -122,16 +124,20 @@ fit_multimix_lite <- function(df_long,
       control = list(maxit = 2000)
     ),
     error = function(e) {
-      message("L-BFGS-B failed: ", conditionMessage(e))
-      message("Last parameters evaluated:")
-      print(last_pars)
+      if(verbose) {
+        message("L-BFGS-B failed: ", conditionMessage(e))
+        message("Last parameters evaluated:")
+        message(paste(capture.output(print(last_pars)), collapse = "\n"))
+      }
       stop(e)
     }
   )
 
-  cat("After L-BFGS-B:\n")
-  print(opt2$par)
-  cat("LogLik =", -opt2$value, "\n\n")
+  if(verbose) {
+    cat("After L-BFGS-B:\n")
+    print(opt2$par)
+    cat("LogLik =", -opt2$value, "\n\n")
+  }
 
   # Combine optimized params with fixed params ----
   est <- c(opt2$par, unlist(fixed_pars, use.names = TRUE))
@@ -222,10 +228,11 @@ multimix_lite <- function(
     upper_bounds = upper_bounds_example_lite,
     max_tries = 20,
     return_first_sucess = FALSE,
-    verbose = TRUE
+    verbose = TRUE,
+    seed = 1234
 ) {
 
-  set.seed(1234)
+  set.seed(seed)
 
   best_fit <- NULL
   best_logLik <- -Inf
