@@ -210,6 +210,7 @@ fit_multimix_lite <- function(df_long,
 #' @param max_tries number of initial params to be tried
 #' @param return_first_sucess logical. If `TRUE` then first model that works will be returned. Otherwise will exhaust the full number of retires to find the most optimal solution
 #' @param verbose logical. If `TRUE` then error messages will be displayed for each failed attempt
+#' @param seed random number generator seed
 #'
 #' @return An object of class `multi_mix_model`, which is a list containing at least:
 #' \describe{
