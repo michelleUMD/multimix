@@ -29,6 +29,8 @@ multimix(
 \item{return_first_sucess}{logical. If \code{TRUE} then first model that works will be returned. Otherwise will exhaust the full number of retires to find the most optimal solution}
 
 \item{verbose}{logical. If \code{TRUE} then error messages will be displayed for each failed attempt}
+
+\item{seed}{random number generator seed}
 }
 \value{
 An object of class \code{multimix_model}, which is a list containing at least:
